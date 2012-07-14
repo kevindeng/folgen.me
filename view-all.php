@@ -37,16 +37,20 @@ $totalRows_show_projects = mysql_num_rows($show_projects);
 
 <body>
 <?php include('includes/header.php') ?>
-
-     <?php if ($totalRows_show_projects > 0) { // Show if recordset not empty ?>
-     <table>
-            <?php do { ?>
-            <tr>
-              <td><?php echo $row_show_projects['title']; ?> <a href="developer-view.php?project_id=<?php echo $row_show_projects['id']; ?>  ">view</a></td>
-            </tr>
-            <?php } while ($row_show_projects = mysql_fetch_assoc($show_projects)); ?>
+	
+  <div id="display-projects">
+    <h1>My Projects</h1>
+    <?php if ($totalRows_show_projects > 0) { // Show if recordset not empty ?>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="display-proj">
+           <?php do { ?>
+           <tr>
+             <td><?php echo $row_show_projects['title']; ?> </td>
+             <td><a href="developer-view.php?project_id=<?php echo $row_show_projects['id']; ?>  ">view</a></td>
+           </tr>
+           <?php } while ($row_show_projects = mysql_fetch_assoc($show_projects)); ?>
     </table>
     <?php } ?>
+    </div>
 
 <?php include('includes/footer.php') ?>
 </body>

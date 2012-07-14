@@ -35,7 +35,13 @@ folgen.Task.prototype.renderAsElement = function() {
     description: this.description,
     deadline: $.datepicker.formatDate('M d, yy', this.deadline)
   }));
-
+	e.find('.create-subtask').click(function() {
+    	$('.popup-create-new-subtask').fadeIn();
+  });
+  
+   e.find('.create-subtask-submit').click(function(){
+    addSubtask();
+  });
   // render comments
   this.commentsContainer = e.find('.' + folgen.Task.commentsContainer);
   for(var i = 0; i < this.comments.length; i++) {
