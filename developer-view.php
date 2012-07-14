@@ -83,10 +83,6 @@
                 <td><input type="text" name="subtask-title" class="form-task"><br /></td>
               </tr>
               <tr>
-                <td align="left" valign="top">Description:</td>
-                <td><textarea name="subtask-description" class="form-task"></textarea><br /> </td>
-              </tr>
-              <tr>
                 <td align="left" valign="top">Deadline:</td>
                 <td><input name="subtask-deadline" type="text" class="form-task" id="subtask-datepicker"><br /></td>
               </tr>
@@ -133,29 +129,6 @@ $( "#subtask-datepicker" ).datepicker();
           return false;
       }
 	  
-	   function addSubtask(){
-      var dat = $('#form-add-subtask').serialize();
-      var project_id = parseInt(getURLParameter('project_id'), 10);
-      dat += '&project_id=' + project_id;
-      $.ajax({
-          type:'POST', 
-          url: 'ajax/add-subtask.php', 
-          data:dat, 
-          success: function(response) {
-            if(response=="success"){
-              $('#form-add-subtask-result').html("Subtask added with success!");
-              $('#form-add-subtask-wrapper').slideUp('fast', function(){
-                //animation complete
-                window.location.replace("../developer-view.php?project_id=" + project_id);
-              });
-            }else{
-              $('#form-add-subtask-result').html("There was an error adding this task");
-            }
-                
-            }
-        });
-          return false;
-      }
       
 
   $('#create-task-submit').click(function(){
@@ -167,14 +140,6 @@ $( "#subtask-datepicker" ).datepicker();
     $('#popup-create-new-task').fadeIn();
   });
   
- $('.create-subtask').click(function() {
-	  $('.popup').hide();
-    $('.popup-create-new-subtask').fadeIn();
-  });
-  
-   $('.create-subtask-submit').click(function(){
-    addSubtask();
-  });
 
 </script>
 
