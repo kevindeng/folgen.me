@@ -101,7 +101,7 @@ function createTask($title, $summary, $description, $start,
 function createComment($userId, $text) {
   $q = sprintf(
     "INSERT INTO comment VALUES (NULL, %d, %s, NULL)",
-    GetSQLValueString($user_id, "int"),
+    GetSQLValueString($userId, "int"),
     GetSQLValueString($text, "text"));
   mysql_query($q);
   return mysql_insert_id();
@@ -175,6 +175,20 @@ function commentOnProject($userId, $text, $projectId) {
     GetSQLValueString($projectId));
   mysql_query($q);
   return getComment($commentId);
+}
+
+function createSubtask($taskId, $title, $deadline) {
+  $q = sprintf("INSERT INTO subtask VALUES (%d, NULL, %s, 0, %s)",
+    GetSQLValueString($taskId, "int"),
+    GetSQLValueString($title, "text"),
+    GetSQLValueString($deadline, "text"));
+  echo $q;
+  mysql_query($q);
+  $stId = mysql_insert_id();
+  $q = sprintf("INSERT INTO subtask_to_task VALUES (NULL, %d, %d, NULL)",
+    $taskId, $stId);
+  mysql_query($q);
+  return getSubtask($stId);
 }
 
 /*------------ ----------- --------------*/
@@ -278,6 +292,10 @@ function main($args) {
   else if ($op == 'add_comment_task') {
     echo json_encode(commentOnTask($args['user_id'],
       $args['text'], $args['task_id']));
+  }
+  else if ($op == 'add_subtask') {
+    echo json_encode(createSubtask($args['task_id'],
+      $args['text'], $args['deadline']));
   }
   else {
     echo "Invalid op";

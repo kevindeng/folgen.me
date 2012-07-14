@@ -15,6 +15,23 @@ folgen.utils.dateProgress = function(d, start, end) {
 
 //-------
 
+folgen.Subtask = function(data) {
+  for(var x in data)
+    this[x] = data[x];
+}
+
+folgen.Subtask.templateName = 'subtask-template';
+
+folgen.Subtask.prototype.renderAsElement = function() {
+  var e = $(Y.substitute($('#' + folgen.Subtask.templateName).html(), {
+    text: this.title,
+    deadline: this.deadline
+  }));
+  return e;
+}
+
+//-------
+
 folgen.Task = function(data) {
   for(var x in data)
     this[x] = data[x];
@@ -35,13 +52,67 @@ folgen.Task.prototype.renderAsElement = function() {
     description: this.description,
     deadline: $.datepicker.formatDate('M d, yy', this.deadline)
   }));
-	e.find('.create-subtask').click(function() {
+
+   // render subtasks
+  this.subtaskContainer = e.find('.' + folgen.Task.subtaskContainer);
+  for(var i = 0; i < this.subtasks.length; i++) {
+    var subtask = new folgen.Subtask(this.subtasks[i]);
+    var subtaskEle = subtask.renderAsElement();
+    this.subtaskContainer.append(subtaskEle);
+  }
+
+  var sc = this.subtaskContainer;
+	e.find('.create-subtask').click($.proxy(function() {
     	$('.popup-create-new-subtask').fadeIn();
-  });
-  
-   e.find('.create-subtask-submit').click(function(){
-    addSubtask();
-  });
+      $('.create-subtask-submit').click($.proxy(function(){
+        /*$.ajax('data.php', {
+          type:'POST', 
+          data: {
+            op: 'add_subtask',
+            task_id: this.id,
+            text: $('#form-add-subtask input').val(),
+            deadline: $('#form-add-subtask input:last').val()
+          }, 
+          success: $.proxy(function(response) {
+            if(response){
+              $('#form-add-subtask-result').html("Subtask added with success!");
+              $('#form-add-subtask-wrapper').slideUp('fast', $.proxy(function(){
+                //animation complete
+                var a = new folgen.Subtask(
+                JSON.parse(response)).renderAsElement();
+                $(a).hide();
+                sc.prepend(a);
+                a.fadeIn();
+                $('.popup-create-new-subtask').fadeOut();
+              }, this));
+            }
+            else {
+              $('#form-add-subtask-result').html("There was an error adding this task");
+            }
+          }, this)
+        });*/
+        var data = {
+            op: 'add_subtask',
+            task_id: this.id,
+            title: $('#form-add-subtask input').val(),
+            deadline: $('#form-add-subtask input:last').val()
+        };
+        var b = new folgen.Subtask(data);
+        var a = b.renderAsElement();
+        a.find('input').change(function(){
+            if(window.__prog)
+              window.__prog++;
+            else
+              window.__prog = 1;
+            window.__proj.moveProgressBar();
+          }); 
+        a.hide();
+          sc.prepend(a);
+          a.fadeIn();
+          $('.popup-create-new-subtask').fadeOut();
+      }, this));
+  }, this));
+
   // render comments
   this.commentsContainer = e.find('.' + folgen.Task.commentsContainer);
   for(var i = 0; i < this.comments.length; i++) {
@@ -57,7 +128,7 @@ folgen.Task.prototype.renderAsElement = function() {
       method: 'POST',
       data: {
         op: 'add_comment_task',
-        user_id: e.find('__uid').val(),
+        user_id: parseInt($('#__uid').val(), 10),
         task_id: this.id,
         text: txt
       },
@@ -68,16 +139,8 @@ folgen.Task.prototype.renderAsElement = function() {
         this.commentsContainer.prepend(nc);
         nc.fadeIn(1000);
       }, this)
-    })
+    });
   }, this));
-
-  // render subtasks
-  for(var i = 0; i < this.subtasks.length; i++) {
-    var subtaskContainer = e.find('.' + folgen.Task.subtaskContainer);
-    var subtask = new folgen.Subtask(this.subtasks[i]);
-    var subtaskEle = subtask.renderAsElement();
-    subtaskContainer.append(subtaskEle);
-  }
 
   return e;
 }
@@ -101,23 +164,6 @@ folgen.Comment.prototype.renderAsElement = function() {
   return e;
 }
 
-//-------
-
-folgen.Subtask = function(data) {
-  for(var x in data)
-    this[x] = data[x];
-}
-
-folgen.Subtask.templateName = 'subtask-template';
-
-folgen.Subtask.prototype.renderAsElement = function() {
-  var e = $(Y.substitute($('#' + folgen.Subtask.templateName).html(), {
-    text: this.title,
-    deadline: this.deadline
-  }));
-  return e;
-}
-
 //---------
 
 folgen.Project = function(data) {
@@ -129,6 +175,7 @@ folgen.Project = function(data) {
   for(var i = 0; i < this.tasks.length; i++)
     tmp.push(new folgen.Task(this.tasks[i]));
   this.tasks = tmp;
+  window.__proj = this;
 }
 
 folgen.Project.templateName = 'project-template';
@@ -167,7 +214,11 @@ folgen.Project.prototype.getProgress = function() {
 }
 
 folgen.Project.prototype.moveProgressBar = function() {
-  var progress = this.getProgress();
+  if(!this.prevVal)
+    this.prevVal = 0;
+  var progress = window.__prog / 3;
+
+  //var progress = this.getProgress();
   var totalWidth = this.el.find('#progress-bar').width();
   var fillWidth = progress * totalWidth;
   $('#progress-bar-fill').animate({
