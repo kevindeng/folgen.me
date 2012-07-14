@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Create a project</title>
+<link href="css/master.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="scripts/jquery-ui-1.8.21.custom.min.js"></script>
+</head>
+
+<body>
+<div id="header-wrapper">
+	<div id="header">
+    	<div id="h-left">folgen.me</div>
+        <div id="h-right">Project #92839</div>
+    	<div class="clear"></div>
+    </div><!-- end of header -->
+</div><!-- header-wrapper -->
+
+<div id="main-wrapper">
+	<div id="main-menu">
+        <ul>
+        	<li><a href="view-all.php">Manage all projects</a> | </li>
+            <li><a href="add-new-project">Add new project</a></li>
+        </ul>
+    </div>
+	<div id="main">
+    	<span class="label">Progress Project Report For:</span>
+        <h1>Yahoo! Hackathon folgen.me</h1>
+        <div id="progress-report" class="box">
+        	Progress: <span class="highlight">80% completed</span> <br />
+            Expenses: <span class="highlight">$120.00 has been spent so far</span> <br />
+            Time Remaining: <span class="highlight">20 days</span> <br />
+            Budget: <span class="highlight">$3,000.00</span> <br />
+            Deadline: <span class="highlight">06/07/2012</span>
+            
+        </div><!--end of progress report -->
+        
+        <div id="progress-bar-wrapper">
+       		<div id="progress-bar-today-tracker">
+            	<div class="progress-date-label start">start date: <br>JAN 5, 2012</div>
+                <div class="progress-date-label deadline">deadline: <br>JAN 5, 2012</div>
+            	<div class="progress-date-label">JAN 5, 2012</div>
+            	<div id="arrow-tracker"></div>
+            </div><!--end of progress-bar-today-tracker -->
+        	<div id="progress-bar">
+             <div class="progress-task"> refactoring</div>
+           	 <div id="progress-bar-fill"></div>
+            </div><!-- end of progress-bar -->
+            <div id="progress-bar-amount-wrapper">
+            	<div id="progress-bar-amount">
+                <span class="highlight">$</span>120.00 <span class="label2"> spent</span>
+                </div>
+            </div><!--end of progress-bar-amount-wrapper-->
+           
+        </div><!--end of progress-bar-wrapper -->
+        
+      <div class="popup" id="popup-create-new-task">
+        	<h1>Creating a new task</h1>
+            
+            <table width="340" border="0">
+              <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">Task Title:</td>
+                <td><input type="text" class="form-task"><br /></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">Description:</td>
+                <td><textarea class="form-task"></textarea><br /> </td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">Deadline:</td>
+                <td><input type="text" class="form-task" id="datepicker"><br /></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="create task" id="create-task-submit" value="Create task"></td>
+              </tr>
+            </table>   
+            
+      </div>
+        <div id="task-controls">
+        <span class="create-subtask button-controls">create a task</span>
+        </div><!--end of task controls -->
+        <br />
+        <div id="tasks">
+       	<table width="100%"border="0" cellspacing="0">
+    
+          <tr>
+            <td colspan="3"><span class="task-title">Task 1</span> | <span class="task-deadline">Deadline: 06/12/2012</span> <br />
+            <span class="label">Description of this task Description of this task Description of this task</span><br />
+            <br />
+            <span class="create-subtask button-controls" id="task-id">create subtask</span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td width="20%">Subtask 1</td>
+            <td width="56%"><p> 
+                <input type="radio" name="progress_status" value="pending" checked="checked" id="progress_status_0">
+                Pending              
+                <input type="radio" name="progress_status" value="radio" id="progress_status_1">
+                In-progress           
+                <input type="radio" name="progress_status" value="completed" id="progress_status_2">
+                Completed
+              <br>
+            </td>
+            <td width="24%"><span class="subtask-deadline">Subtask deadline</span></td>
+          </tr>
+
+        </table>
+      </div><!--end of tasks -->
+      
+      
+              <div id="tasks">
+       	<table width="100%"border="0" cellspacing="0">
+    
+          <tr>
+            <td colspan="3"><span class="task-title">Task 1</span> | <span class="task-deadline">Deadline: 06/12/2012</span> <br />
+            <span class="label">Description of this task Description of this task Description of this task</span><br />
+            <br />
+            <span class="create-subtask button-controls" id="task-id">create subtask</span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td width="20%">Subtask 1</td>
+            <td width="56%"><p> 
+                <input type="radio" name="progress_status" value="pending" checked="checked" id="progress_status_0">
+                Pending              
+                <input type="radio" name="progress_status" value="radio" id="progress_status_1">
+                In-progress           
+                <input type="radio" name="progress_status" value="completed" id="progress_status_2">
+                Completed
+              <br>
+            </td>
+            <td width="24%"><span class="subtask-deadline">Subtask deadline</span></td>
+          </tr>
+
+        </table>
+      </div><!--end of tasks -->
+      
+      
+              <div id="tasks">
+       	<table width="100%"border="0" cellspacing="0">
+    
+          <tr>
+            <td colspan="3"><span class="task-title">Task 1</span> | <span class="task-deadline">Deadline: 06/12/2012</span> <br />
+            <span class="label">Description of this task Description of this task Description of this task</span><br />
+            <br />
+            <span class="create-subtask button-controls" id="task-id">create subtask</span>
+            </td>
+          </tr>
+          
+          <tr>
+            <td width="20%">Subtask 1</td>
+            <td width="56%"><p> 
+                <input type="radio" name="progress_status" value="pending" checked="checked" id="progress_status_0">
+                Pending              
+                <input type="radio" name="progress_status" value="radio" id="progress_status_1">
+                In-progress           
+                <input type="radio" name="progress_status" value="completed" id="progress_status_2">
+                Completed
+              <br>
+            </td>
+            <td width="24%"><span class="subtask-deadline">Subtask deadline</span></td>
+          </tr>
+
+        </table>
+      </div><!--end of tasks -->
+      
+      
+    </div><!-- end of main -->
+</div><!-- end of main wrapper -->
+<br /><br /><br /><br />
+
+<script>
+$(function() {
+	$( "#datepicker" ).datepicker();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+schema
+
+user:
+	name
+
+project:
+	tasks: list<task>
+	start date: date
+	deadline: date
+
+task:
+	subtasks: list<subtask>
+	comments: string
+	start date: date
+	deadline: date
+	complete: bool
+	description: string
+	priority: enum
+	assigned to: user
+	obeservers: list<user>
+	cost: int
+
+subtask:
+	description: string
+	complete?: bool
