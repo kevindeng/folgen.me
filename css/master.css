@@ -18,6 +18,33 @@ h2{
 .clear{
 	clear: both;
 }
+
+#display-projects{
+	margin: 0 auto;
+	width: 960px;
+}
+
+#display-projects h1{
+	color: #44337f!important;
+	font-size: 32px!important;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 10px;
+}
+
+#display-proj tr{
+	color: #515151;
+	background-color: #ededed;
+	border-bottom: 1px solid #ccc;
+}
+
+#display-proj tr:hover{
+	background-color: #eaeaea;
+}
+
+#display-proj td{
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
+}
 /* 
 	Popups
 */
@@ -27,6 +54,9 @@ h2{
 	background-color: #632a8f;
 	border-radius: 10px;
 	display: none;
+	position: absolute;
+	margin-top: 10px;
+	z-index: 300;
 }
 
 .popup h1{

@@ -58,12 +58,40 @@
               <tr>
                 <td>&nbsp;</td>
                 <td>
-                <div  id="create-task-submit"> dont reload this shit for christ sake!</div></td>
+                <div  id="create-task-submit" button-controls> dont reload this shit for christ sake!</div></td>
               </tr>
             </table>
         </form>
         </div>  
+       </div>
         <div id="form-add-task-result"></div>
+       
+        <div class="popup popup-create-new-subtask">
+          <h1>Creating a new task</h1>
+          <div id="form-add-subtask-wrapper">
+        <form id="form-add-subtask">
+            <table width="340" border="0">
+              <tr>
+                <td align="left" valign="top">Subtask Title:</td>
+                <td><input type="text" name="subtask-title" class="form-task"><br /></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">Description:</td>
+                <td><textarea name="subtask-description" class="form-task"></textarea><br /> </td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">Deadline:</td>
+                <td><input name="subtask-deadline" type="text" class="form-task" id="subtask-datepicker"><br /></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td>
+                <div  class="create-subtask-submit button-controls"> create subtask!</div></td>
+              </tr>
+            </table>
+        </form>
+        </div>  
+        <div id="form-add-subtask-result"></div>
         
         <br />
          
@@ -72,10 +100,9 @@
 
 <script type="text/javascript">
 $( "#task-datepicker" ).datepicker();
-
+$( "#subtask-datepicker" ).datepicker();
 
     function addTask(){
-      console.log('fuck my ass');
       var dat = $('#form-add-task').serialize();
       var project_id = parseInt(getURLParameter('project_id'), 10);
       dat += '&project_id=' + project_id;
@@ -85,7 +112,6 @@ $( "#task-datepicker" ).datepicker();
           data:dat, 
           success: function(response) {
             if(response=="success"){
-              console.log("fuck me.");
               $('#form-add-task-result').html("Task added with success!");
               $('#form-add-task-wrapper').slideUp('fast', function(){
                 //animation complete
@@ -93,6 +119,30 @@ $( "#task-datepicker" ).datepicker();
               });
             }else{
               $('#form-add-task-result').html("There was an error adding this task");
+            }
+                
+            }
+        });
+          return false;
+      }
+	  
+	   function addSubtask(){
+      var dat = $('#form-add-subtask').serialize();
+      var project_id = parseInt(getURLParameter('project_id'), 10);
+      dat += '&project_id=' + project_id;
+      $.ajax({
+          type:'POST', 
+          url: 'ajax/add-subtask.php', 
+          data:dat, 
+          success: function(response) {
+            if(response=="success"){
+              $('#form-add-subtask-result').html("Subtask added with success!");
+              $('#form-add-subtask-wrapper').slideUp('fast', function(){
+                //animation complete
+                window.location.replace("../developer-view.php?project_id=" + project_id);
+              });
+            }else{
+              $('#form-add-subtask-result').html("There was an error adding this task");
             }
                 
             }
@@ -107,6 +157,14 @@ $( "#task-datepicker" ).datepicker();
 
   $('.create-task').click(function() {
     $('#popup-create-new-task').fadeIn();
+  });
+  
+ $('.create-subtask').click(function() {
+    $('.popup-create-new-subtask').fadeIn();
+  });
+  
+   $('.create-subtask-submit').click(function(){
+    addSubtask();
   });
 
 </script>
