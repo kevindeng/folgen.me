@@ -124,11 +124,11 @@ function getCommentIdsForTask($taskId) {
 }
 
 function getSubtaskIdsForTask($taskId) {
-  return getArray(sprintf("SELECT subtask_id FROM subtask_to_task WHERE task_id=%d", $taskId));
+  return getArray(sprintf("SELECT subtask_id FROM subtask_to_task WHERE task_id=%d ORDER BY subtask_id DESC", $taskId));
 }
 
 function getTaskIdsForProject($projectId) {
-  return getArray(sprintf("SELECT task_id FROM task_to_project WHERE project_id=%d", $projectId));
+  return getArray(sprintf("SELECT task_id FROM task_to_project WHERE project_id=%d ORDER BY task_id DESC", $projectId));
 }
 
 /*------------------- compound gets -----------------*/
@@ -156,6 +156,27 @@ function getProject($projectId) {
   return $project;
 }
 
+/* ---------------- complex inserts ------------------ */
+function commentOnTask($userId, $text, $taskId) {
+  $commentId = createComment($userId, $text);
+  $q = sprintf(
+    "INSERT INTO comment_to_task VALUES (NULL, %d, %d)",
+    GetSQLValueString($commentId),
+    GetSQLValueString($taskId));
+  mysql_query($q);
+  return getComment($commentId);
+}
+
+function commentOnProject($userId, $text, $projectId) {
+  $commentId = createComment($userId, $text);
+  $q = sprintf(
+    "INSERT INTO comment_to_project VALUES (NULL, %d, %d)",
+    GetSQLValueString($commentId),
+    GetSQLValueString($projectId));
+  mysql_query($q);
+  return getComment($commentId);
+}
+
 /*------------ ----------- --------------*/
 
 
@@ -178,16 +199,6 @@ function assignUserToTask($userId, $taskId) {
   mysql_query($q);
 }
 
-
-
-function commentOnTask($userId, $text, $taskId) {
-  $commentId = createComment($userId, $text);
-  $q = sprintf(
-    "INSERT INTO comment_to_task VALUES (NULL, %d, %d)",
-    GetSQLValueString($commentId),
-    GetSQLValueString($taskId));
-  mysql_query($q);
-}
 
 /*function getComment($commentId) {
   $basic = getFirst(sprintf("SELECT * FROM commet WHERE id=%d", $commentId));
@@ -214,14 +225,7 @@ function getTaskSubtasks($taskId) {
   return $a;
 }
 
-function commentOnProject($userId, $text, $projectId) {
-  $commentId = createComment($userId, $text);
-  $q = sprintf(
-    "INSERT INTO comment_to_project VALUES (NULL, %d, %d)",
-    GetSQLValueString($commentId),
-    GetSQLValueString($projectId));
-  mysql_query($q);
-}
+
 
 function getTaskComments($taskId) {
   $q = sprintf(
@@ -270,6 +274,10 @@ function main($args) {
   }
   else if ($op == 'get_project') {
     echo json_encode(getProject($args['project_id']));
+  }
+  else if ($op == 'add_comment_task') {
+    echo json_encode(commentOnTask($args['user_id'],
+      $args['text'], $args['task_id']));
   }
   else {
     echo "Invalid op";

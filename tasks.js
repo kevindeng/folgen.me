@@ -37,12 +37,33 @@ folgen.Task.prototype.renderAsElement = function() {
   }));
 
   // render comments
+  this.commentsContainer = e.find('.' + folgen.Task.commentsContainer);
   for(var i = 0; i < this.comments.length; i++) {
-    var commentsContainer = e.find('.' + folgen.Task.commentsContainer);
     var comment = new folgen.Comment(this.comments[i]);
     var commentEle = comment.renderAsElement();
-    commentsContainer.append(commentEle);
+    this.commentsContainer.append(commentEle);
   }
+
+  // bind controls to comment textbox/button
+  e.find('.task-comment-add button').click($.proxy(function() {
+    var txt = e.find('.task-comment-add textarea').val();
+    $.ajax('data.php', {
+      method: 'POST',
+      data: {
+        op: 'add_comment_task',
+        user_id: e.find('__uid').val(),
+        task_id: this.id,
+        text: txt
+      },
+      success: $.proxy(function(response) {
+        var comment = new folgen.Comment(JSON.parse(response));
+        var nc = $(comment.renderAsElement());
+        nc.hide();
+        this.commentsContainer.prepend(nc);
+        nc.fadeIn(1000);
+      }, this)
+    })
+  }, this));
 
   // render subtasks
   for(var i = 0; i < this.subtasks.length; i++) {
@@ -154,7 +175,7 @@ folgen.Project.prototype.renderAsElement = function() {
     description: this.description,
     deadline: $.datepicker.formatDate('M d, yy', this.deadline),
     start: $.datepicker.formatDate('M d, yy', this.start),
-    remaining: Math.floor((this.deadline.getTime() - 
+    remaining: Math.ceil((this.deadline.getTime() - 
       new Date().getTime()) / (24 * 3600000)).toString() + ' days',
     progress: Math.floor(this.getProgress() * 100).toString()
   }));
@@ -165,9 +186,10 @@ folgen.Project.prototype.renderAsElement = function() {
     taskContainer.append(this.tasks[i].renderAsElement());
   }
 
-  // move the "today" arrow
+  // move the "today" arrow and money count
   var dp = folgen.utils.dateProgress(new Date(), this.start, this.deadline);
   e.find('#arrow-tracker').css('margin-left', 960 * dp);
+  e.find('#progress-bar-amount').css('margin-left', 960 * dp - 40);
 
   // mark deadlines
   for(var i = 0; i < this.tasks.length; i++) {

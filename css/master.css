@@ -307,7 +307,6 @@ input.form-login{
 
 
 #progress-bar-amount-wrapper{
-	padding-left: 24%;
 	width: 100%;
 }
 
@@ -744,6 +743,10 @@ input.form-login{
 
 .comment-time {
 	font-size: 75%;
+}
+
+.task-comment-add textarea:focus {
+	background: rgba(255, 0, 0, 0.03);
 }
 
 /* sub task */

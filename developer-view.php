@@ -1,6 +1,13 @@
 <?php require_once('Connections/folgen.php'); ?>
 <?php require('includes/getvaluestr.php'); ?>
 <?php require_once('includes/restrict-access.php'); ?>
+<?php
+  mysql_select_db($database_folgen, $folgen);
+  $query_getUserId = sprintf("SELECT id FROM user WHERE email = %s", GetSQLValueString($_SESSION['MM_Username'], "text"));
+  $result = mysql_query($query_getUserId, $folgen) or die(mysql_error());
+  $userid = mysql_fetch_array($result);
+  $myid = $userid['id'];
+?>
 
 <!DOCTYPE html>
 <head>
@@ -31,7 +38,7 @@
 
 <body>
 <?php include('includes/header.php') ?>
-
+  <?php echo "<input type=\"hidden\" id=\"__uid\" value=\"$myid\"></input>";?>
 
   <div id="main">
       <div id="task-controls">
@@ -129,29 +136,14 @@ $( "#task-datepicker" ).datepicker();
       <tr>
         <td class="task-comments"></td>
       </tr>
+      <tr>
+        <td class="task-comment-add">
+          <div><textarea cols="35"></textarea></div>
+          <div><button>Comment</button></div>
+        </td>
+      </tr>
     </table>
   </div>
-  
-
-    <!--<tr>
-        <td colspan="3">
-            <span class="task-title">{title}</span> 
-            <br />
-            <input type="text" class="form-task" value="task title">
-            <span class="task-deadline">{deadline}</span>
-            <span class="create-subtask button-controls" id="task-id">create subtask</span>
-        </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="task-subtasks"></div<
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div class="task-comments"></div>
-      </td>
-    </tr>-->
 </script>
 
 <script type="text/template" id="project-template">

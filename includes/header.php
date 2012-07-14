@@ -59,8 +59,8 @@
 				url: 'ajax/add-project.php', 
 				data:$('#form-add-project').serialize(), 
 				success: function(response) {
-					console.log(response);
-					console.log(response.indexOf('success'));
+					//console.log(response);
+					///console.log(response.indexOf('success'));
 					if(response.indexOf('success') >= 0){
 						$('#form-add-project-result').html("Project added with success!");
 						$('#form-add-project-wrapper').slideUp('fast', function(){
