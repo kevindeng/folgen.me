@@ -136,16 +136,10 @@ $( "#subtask-datepicker" ).datepicker();
   });
 
   $('.create-task').click(function() {
+	   $('.popup').hide();
     $('#popup-create-new-task').fadeIn();
   });
   
- /*$('.create-subtask').click(function() {
-    $('.popup-create-new-subtask').fadeIn();
-  });
-  
-   $('.create-subtask-submit').click(function(){
-    addSubtask();
-  });*/
 
 </script>
 
