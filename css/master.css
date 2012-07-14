@@ -69,6 +69,8 @@ h2{
 }
 
 #popup-create-new-project{
+	left: 50%;
+	margin-left: -200px;
 	width: 400px;
 	float: right;
 }
@@ -76,7 +78,6 @@ h2{
 #intro-wrapper{
 	background-image: url(../images/bg.jpg);
 	background-repeat: repeat;
-	margin-top: 100px;
 	width: 100%;
 }
 

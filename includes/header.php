@@ -80,6 +80,7 @@
       	 addProject();
       });
       $('.add-new-project').click(function(){
+		  $('.popup').hide();
       	$('#popup-create-new-project').fadeIn();
       });
       </script>

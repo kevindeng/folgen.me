@@ -52,6 +52,12 @@ if (isset($_POST['email'])) {
 <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <link href="css/master.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<style type="text/css">
+body{
+	background-image: url(../images/bg.jpg)!important;
+	background-repeat: repeat!important;
+}
+</style>
 
 </head>
 
@@ -102,7 +108,7 @@ if (isset($_POST['email'])) {
           </tr>
           <tr>
             <td>&nbsp;</td>
-            <td><input type="button" value="View Progress"></td>
+            <td><div id="view-progress" class="button-controls">view progress </div></td>
           </tr>
         </table>       
         </form>
@@ -148,6 +154,10 @@ $('#button-follow-project').live('click', function(){
 		// Animation complete.
 	  });
 
+});
+
+$('#view-progress').click(function(){
+	window.location.replace("project-view.php?project_id=29");
 });
 </script>
 <body>

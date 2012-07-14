@@ -163,10 +163,12 @@ $( "#subtask-datepicker" ).datepicker();
   });
 
   $('.create-task').click(function() {
+	   $('.popup').hide();
     $('#popup-create-new-task').fadeIn();
   });
   
  $('.create-subtask').click(function() {
+	  $('.popup').hide();
     $('.popup-create-new-subtask').fadeIn();
   });
   
